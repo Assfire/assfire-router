@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package assfire.api.v1.router;
+option go_package = "assfire.org/api/v1/router";
+
+message GeoPoint {
+  sint32 lat = 1;
+  sint32 lon = 2;
+}
+
+message RouteInfo {
+  int32 duration_seconds = 1;
+  double distance_meters = 2;
+  repeated GeoPoint waypoints = 3;
+}
+
+message IndexedRouteInfo {
+  int32 origin_id = 1;
+  int32 destination_id = 2;
+  RouteInfo route_info = 3;
+}
+
+message GetSingleRouteRequest {
+  GeoPoint origin = 1;
+  GeoPoint destination = 2;
+  string routing_strategy = 3;
+  string routing_profile = 4;
+  bool get_waypoints = 5;
+}
+
+message GetSingleRouteResponse {
+  RouteInfo route_info = 1;
+}
+
+message GetRoutesBatchRequest {
+  repeated GeoPoint origins = 1;
+  repeated GeoPoint destinations = 2;
+  string routing_strategy = 3;
+  string routing_profile = 4;
+}
+
+message GetRoutesBatchResponse {
+  repeated IndexedRouteInfo route_infos = 1;
+}
+
+message GetRoutesVectorRequest {
+  repeated GeoPoint waypoints = 1;
+  string routing_strategy = 2;
+  string routing_profile = 3;
+  bool get_waypoints = 4;
+}
+
+message GetRoutesVectorResponse {
+  repeated IndexedRouteInfo route_infos = 1;
+  int32 total_duration_seconds = 2;
+  double total_distance_meters = 3;
+}
+
+service RouterService {
+  rpc GetSingleRoute(GetSingleRouteRequest) returns (GetSingleRouteResponse) {};
+  rpc GetRoutesVector(GetRoutesVectorRequest) returns (GetRoutesVectorResponse) {};
+  rpc GetRoutesBatch(GetRoutesBatchRequest) returns (stream GetRoutesBatchResponse) {}
+}
