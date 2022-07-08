@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 #include <functional>
+#include <optional>
 #include "Route.hpp"
 #include "RouteMatrix.hpp"
 
@@ -257,7 +258,7 @@ namespace assfire::router
          *
          * \return Thread-safe shared pointer to calculated matrix
          */
-        virtual MatrixPtr calculate_route_matrix(const Waypoints &origins, const Waypoints &destinations = RoutingStrategyId()) const = 0;
+        virtual MatrixPtr calculate_route_matrix(const Waypoints &origins, const Waypoints &destinations, const RoutingStrategyId& strategy = RoutingStrategyId()) const = 0;
 
         /**
          * \brief Calculates matrix containing summaries of routes between all origins and all destinations using specified strategy and transport profile.
@@ -374,7 +375,7 @@ namespace assfire::router
          *
          * \return Vector of routes between adjacent elements of waypoints including verbose subwaypoints between each requested point
          */
-        virtual std::vector<Route> calculate_routes_vector(const Waypoints &waypoints, const TransportProfileId &profile = TransportProfileId(), const RoutingStrategyId &strategy = RoutingStrategyId(), ) = 0;
+        virtual std::vector<Route> calculate_routes_vector(const Waypoints &waypoints, const TransportProfileId &profile = TransportProfileId(), const RoutingStrategyId &strategy = RoutingStrategyId()) = 0;
 
         /**
          * \brief Calculates routes (including verbose waypoints) between adjacent elements of provided waypoints list using specified strategy and default transport profile
@@ -418,7 +419,7 @@ namespace assfire::router
          * \param profile Id of transport profile to use for routing (possible values depend on implementation)
          *
          */
-        virtual void calculate_routes_vector(const Waypoints &waypoints, std::function<void(Route)> consume_route, const TransportProfileId &profile = TransportProfileId(), const RoutingStrategyId &strategy = RoutingStrategyId(), ) = 0;
+        virtual void calculate_routes_vector(const Waypoints &waypoints, std::function<void(Route)> consume_route, const TransportProfileId &profile = TransportProfileId(), const RoutingStrategyId &strategy = RoutingStrategyId()) = 0;
 
         /**
          * \brief Calculates route summaries(not including verbose waypoints) between adjacent elements of provided waypoints list using specified strategy and default transport profile
@@ -512,6 +513,6 @@ namespace assfire::router
          * \param profile Id of transport profile to use for routing (possible values depend on implementation)
          *
          */
-        virtual std::vector<RouteInfo> calculate_route_infos_vector(const Waypoints &waypoints, const TransportProfileId &profile = TransportProfileId(), const RoutingStrategyId &strategy = RoutingStrategyId()) = 0;
-    }
+        virtual std::vector<RouteInfo> calculate_route_infos_vector(const Waypoints &waypoints, std::function<void(RouteInfo)> consume_route_info, const TransportProfileId &profile = TransportProfileId(), const RoutingStrategyId &strategy = RoutingStrategyId()) = 0;
+    };
 }
