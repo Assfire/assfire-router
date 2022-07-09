@@ -6,25 +6,11 @@
 #include <optional>
 #include "Route.hpp"
 #include "RouteMatrix.hpp"
+#include "RoutingStrategyId.hpp"
+#include "TransportProfileId.hpp"
 
 namespace assfire::router
 {
-    /**
-     * \brief Id of strategy that should be used to calculate route. Defines routing algorithm/provider and its settings. Strategies themselves are configured at implementation level
-     */
-    struct RoutingStrategyId
-    {
-        std::string value;
-    };
-
-    /**
-     * \brief Id of profile that defines transport specifics like speed, weight, restriction etc. Profiles themselves are configured at implementation level
-     */
-    struct TransportProfileId
-    {
-        std::string value;
-    };
-
     /**
      * \brief This class provides routing information for geographical points such as route summaries (distance and travel time) and verbose waypoints path between origins
      * and destinations
@@ -91,7 +77,7 @@ namespace assfire::router
          * 
          * \details
          * Effectively equal to
-         * \endcode{.cpp}
+         * \code{.cpp}
          * calculate_route_info(origin, destination, strategy).distance_meters()
          * \endcode
          *
@@ -108,7 +94,7 @@ namespace assfire::router
          * 
          * \details
          * Effectively equal to
-         * \endcode{.cpp}
+         * \code{.cpp}
          * calculate_route_info(origin, destination, strategy, profile).distance_meters()
          * \endcode
          *
@@ -126,7 +112,7 @@ namespace assfire::router
          *
          * \details
          * Effectively equal to
-         * \endcode{.cpp}
+         * \code{.cpp}
          * calculate_route_info(origin, destination, strategy).duration_seconds()
          * \endcode
          *
@@ -143,7 +129,7 @@ namespace assfire::router
          *
          * \details
          * Effectively equal to
-         * \endcode{.cpp}
+         * \code{.cpp}
          * calculate_route_info(origin, destination, strategy, profile).duration_seconds()
          * \endcode
          *
@@ -333,7 +319,7 @@ namespace assfire::router
          *
          * \details 
          * Effectively equal to
-         * \code {.cpp}
+         * \code{.cpp}
          * std::vector<Route> result;
          * for(int i = 0; i < waypoints.size() - 1; ++i) {
          *   result.push_back(calculate_route(waypoints[i], waypoints[j], strategy));
@@ -357,7 +343,7 @@ namespace assfire::router
          *
          * \details 
          * Effectively equal to
-         * \code {.cpp}
+         * \code{.cpp}
          * std::vector<Route> result;
          * for(int i = 0; i < waypoints.size() - 1; ++i) {
          *   result.push_back(calculate_route(waypoints[i], waypoints[j], profile, strategy));
@@ -382,7 +368,7 @@ namespace assfire::router
          *
          * \details 
          * Effectively equal to
-         * \code {.cpp}
+         * \code{.cpp}
          * for(int i = 0; i < waypoints.size() - 1; ++i) {
          *   consume_route(std::move(calculate_route(waypoints[i], waypoints[j], strategy)));
          * }
@@ -403,7 +389,7 @@ namespace assfire::router
          *
          * \details 
          * Effectively equal to
-         * \code {.cpp}
+         * \code{.cpp}
          * for(int i = 0; i < waypoints.size() - 1; ++i) {
          *   consume_route(std::move(calculate_route(waypoints[i], waypoints[j], profile, strategy)));
          * }
@@ -426,7 +412,7 @@ namespace assfire::router
          *
          * \details 
          * Effectively equal to
-         * \code {.cpp}
+         * \code{.cpp}
          * std::vector<RouteInfo> result;
          * for(int i = 0; i < waypoints.size() - 1; ++i) {
          *   result.push_back(calculate_route_info(waypoints[i], waypoints[j], strategy));
@@ -450,7 +436,7 @@ namespace assfire::router
          *
          * \details 
          * Effectively equal to
-         * \code {.cpp}
+         * \code{.cpp}
          * std::vector<RouteInfo> result;
          * for(int i = 0; i < waypoints.size() - 1; ++i) {
          *   result.push_back(calculate_route_info(waypoints[i], waypoints[j], profile, strategy));
@@ -475,7 +461,7 @@ namespace assfire::router
          *
          * \details 
          * Effectively equal to
-         * \code {.cpp}
+         * \code{.cpp}
          * for(int i = 0; i < waypoints.size() - 1; ++i) {
          *   consume_route_info(std::move(calculate_route_info(waypoints[i], waypoints[j], strategy)));
          * }
@@ -497,7 +483,7 @@ namespace assfire::router
          *
          * \details 
          * Effectively equal to
-         * \code {.cpp}
+         * \code{.cpp}
          * for(int i = 0; i < waypoints.size() - 1; ++i) {
          *   consume_route_info(std::move(calculate_route_info(waypoints[i], waypoints[j], profile, strategy)));
          * }
@@ -513,6 +499,6 @@ namespace assfire::router
          * \param profile Id of transport profile to use for routing (possible values depend on implementation)
          *
          */
-        virtual std::vector<RouteInfo> calculate_route_infos_vector(const Waypoints &waypoints, std::function<void(RouteInfo)> consume_route_info, const TransportProfileId &profile = TransportProfileId(), const RoutingStrategyId &strategy = RoutingStrategyId()) = 0;
+        virtual void calculate_route_infos_vector(const Waypoints &waypoints, std::function<void(RouteInfo)> consume_route_info, const TransportProfileId &profile = TransportProfileId(), const RoutingStrategyId &strategy = RoutingStrategyId()) = 0;
     };
 }
