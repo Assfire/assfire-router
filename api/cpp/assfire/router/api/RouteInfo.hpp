@@ -30,7 +30,7 @@ namespace assfire::router
             this->_meters = meters;
         }
 
-        Seconds duration_seconds() const
+        Seconds travel_time_seconds() const
         {
             return _seconds;
         }

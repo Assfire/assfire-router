@@ -22,6 +22,9 @@ namespace assfire::router
         Route(const RouteInfo &route_info) : _route_info(route_info)
         {
         }
+        Route(RouteInfo &&route_info) : _route_info(std::move(route_info))
+        {
+        }
 
         Route(const RouteInfo &route_info, const Waypoints &waypoints) : _route_info(route_info),
                                                                          _waypoints(waypoints)

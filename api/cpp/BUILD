@@ -10,7 +10,9 @@ cc_library(
         "assfire/router/api/RouteMatrix.hpp",
         "assfire/router/api/RoutesProvider.hpp",
         "assfire/router/api/RoutingStrategyId.hpp",
-        "assfire/router/api/RoutingStrategyName.hpp",
+        "assfire/router/api/TransportProfileId.hpp",
     ],
+    include_prefix = "assfire/router/api",
+    strip_include_prefix = "assfire/router/api",
     visibility = ["//visibility:public"],
 )

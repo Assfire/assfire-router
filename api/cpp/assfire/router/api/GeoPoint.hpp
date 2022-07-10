@@ -6,17 +6,35 @@
 namespace assfire::router
 {
     /**
-     * \brief This class represents geographic location encoded by latitude and longitude expressed in fixed point integer format with 6 decimal points
-     * i.e. coordinates (53.3456, 65.23456) are represented as (53345600, 65234560). 
+     * \brief This class represents geographic location denoted by latitude and longitude
      */
     class GeoPoint
     {
     public:
         using FixedPointCoordinate = std::int32_t;
 
+        /**
+         * \brief Construct a new Geo Point object representing coordinates (0, 0)
+         *
+         */
         GeoPoint() = default;
+
+        /**
+         * \brief Construct a new Geo Point object representing coordinates encoded using fixed point integet format with 6 decimal places, e.g. coordinates (53.3456, 65.23456) are represented as (53345600, 65234560).
+         *
+         * \param lat latitude encoded in fixed point integer format with 6 decimal places
+         * \param lon longitude encoded in fixed point integer format with 6 decimal places
+         */
         GeoPoint(FixedPointCoordinate lat, FixedPointCoordinate lon) : _lat(lat),
                                                                        _lon(lon) {}
+        /**
+         * \brief Construct a new Geo Point object representing coordinates encoded using floating point format, e.g. (53.3456, 65.23456)
+         *
+         * \param lat latitude encoded in floating point format
+         * \param lon longitude encoded in floating point format
+         */
+        GeoPoint(double lat, double lon) : _lat((FixedPointCoordinate)(lat * 1e6)),
+                                           _lon((FixedPointCoordinate)(lon * 1e6)) {}
         GeoPoint(const GeoPoint &rhs) = default;
         GeoPoint(GeoPoint &&rhs) = default;
 
@@ -91,7 +109,23 @@ namespace assfire::router
             return _lon;
         }
 
-        std::string to_string() const {
+        double lat_double() const
+        {
+            return _lat / 1e6;
+        }
+
+        double lon_double() const
+        {
+            return _lon / 1e6;
+        }
+
+        /**
+         * \brief Formats string representation of geo point using fixed point integer format with 6 decimal places
+         *
+         * \return std::string string representation of geo point
+         */
+        std::string to_string() const
+        {
             std::string result("(");
             result += std::to_string(_lat);
             result += ", ";
@@ -100,7 +134,13 @@ namespace assfire::router
             return result;
         }
 
-        std::string to_float_string() const {
+        /**
+         * \brief Formats string representation of geo point using floating point coordinates format
+         *
+         * \return std::string string representation of geo point
+         */
+        std::string to_float_string() const
+        {
             std::string result("(");
             result += std::to_string(_lat / 1e6);
             result += ", ";

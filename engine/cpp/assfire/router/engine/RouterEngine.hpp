@@ -10,6 +10,8 @@ namespace assfire::router
     class RouterEngine : public RoutesProvider
     {
     public:
+        RouterEngine(std::unique_ptr <RoutingStrategyProvider> routingStrategyProvider, std::unique_ptr <TransportProfileProvider> transportProfileProvider);
+
         virtual Route calculate_route(const GeoPoint &origin, const GeoPoint &destination, const RoutingStrategyId &strategy = RoutingStrategyId()) const override;
         virtual Route calculate_route(const GeoPoint &origin, const GeoPoint &destination, const TransportProfileId &profile = TransportProfileId(), const RoutingStrategyId &strategy = RoutingStrategyId()) const override;
 

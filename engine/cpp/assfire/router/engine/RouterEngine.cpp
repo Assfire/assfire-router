@@ -2,6 +2,11 @@
 
 namespace assfire::router
 {
+    RouterEngine::RouterEngine(std::unique_ptr <RoutingStrategyProvider> routingStrategyProvider, std::unique_ptr <TransportProfileProvider> transportProfileProvider)
+            : routing_strategy_provider(std::move(routingStrategyProvider)),
+              transport_profile_provider(std::move(transportProfileProvider))
+    {}
+
     Route RouterEngine::calculate_route(const GeoPoint &origin, const GeoPoint &destination, const RoutingStrategyId &strategy) const
     {
         return routing_strategy_provider->get_routing_strategy(strategy)->calculate_route(origin, destination);
