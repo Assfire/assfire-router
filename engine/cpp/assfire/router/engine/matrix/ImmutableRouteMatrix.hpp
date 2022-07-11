@@ -67,5 +67,5 @@ namespace assfire::router
         TransportProfile transport_profile;
         std::shared_ptr<RoutingStrategy> fallback_strategy;
         std::vector<RouteInfo> data;
-    }
+    };
 }
