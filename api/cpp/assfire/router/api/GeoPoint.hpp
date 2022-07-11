@@ -109,6 +109,16 @@ namespace assfire::router
             return _lon;
         }
 
+        void set_lat(FixedPointCoordinate lat)
+        {
+            _lat = lat;
+        }
+
+        void set_lon(FixedPointCoordinate lon)
+        {
+            _lon = lon;
+        }
+
         double lat_double() const
         {
             return _lat / 1e6;
@@ -117,6 +127,16 @@ namespace assfire::router
         double lon_double() const
         {
             return _lon / 1e6;
+        }
+
+        void set_lat(double lat)
+        {
+            _lat = (FixedPointCoordinate) (lat * 1e6);
+        }
+
+        void set_lon(double lon)
+        {
+            _lon = (FixedPointCoordinate) (lon * 1e6);
         }
 
         /**

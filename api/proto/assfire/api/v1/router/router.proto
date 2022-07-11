@@ -9,7 +9,7 @@ message GeoPoint {
 }
 
 message RouteInfo {
-  int32 duration_seconds = 1;
+  int32 travel_time_seconds = 1;
   double distance_meters = 2;
   repeated GeoPoint waypoints = 3;
 }
@@ -24,7 +24,7 @@ message GetSingleRouteRequest {
   GeoPoint origin = 1;
   GeoPoint destination = 2;
   string routing_strategy = 3;
-  string routing_profile = 4;
+  string transport_profile = 4;
   bool get_waypoints = 5;
 }
 
@@ -36,7 +36,7 @@ message GetRoutesBatchRequest {
   repeated GeoPoint origins = 1;
   repeated GeoPoint destinations = 2;
   string routing_strategy = 3;
-  string routing_profile = 4;
+  string transport_profile = 4;
 }
 
 message GetRoutesBatchResponse {
@@ -46,12 +46,12 @@ message GetRoutesBatchResponse {
 message GetRoutesVectorRequest {
   repeated GeoPoint waypoints = 1;
   string routing_strategy = 2;
-  string routing_profile = 3;
+  string transport_profile = 3;
   bool get_waypoints = 4;
 }
 
 message GetRoutesVectorResponse {
-  repeated IndexedRouteInfo route_infos = 1;
+  repeated RouteInfo route_infos = 1;
   int32 total_duration_seconds = 2;
   double total_distance_meters = 3;
 }

@@ -41,7 +41,7 @@ namespace assfire::router
         Route& operator=(const Route& rhs) = default;
         Route& operator=(Route&& rhs) = default;
 
-        const RouteInfo &info() const
+        const RouteInfo &summary() const
         {
             return _route_info;
         }

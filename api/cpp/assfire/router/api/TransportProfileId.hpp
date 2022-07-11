@@ -7,6 +7,9 @@ namespace assfire::router
      */
     struct TransportProfileId
     {
+        TransportProfileId() = default;
+        TransportProfileId(const std::string &value) : value(value) {}
+
         std::string value;
     };
 }
