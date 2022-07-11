@@ -2,7 +2,7 @@
 
 #include <memory>
 #include "assfire/router/api/RoutingStrategyId.hpp"
-#include "RoutingStrategy.hpp"
+#include "assfire/router/engine/common/RoutingStrategy.hpp"
 
 namespace assfire::router {
     class RoutingStrategyProvider {

@@ -31,7 +31,7 @@ namespace assfire::router
             {
                 return calculate_route_info(origins[origin], destinations[destination], profile);
             },
-            std::make_shared<BasicRoutingStrategy>(), profile);
+            clone(), profile);
     }
 
     RoutingStrategy::MatrixPtr BasicRoutingStrategy::calculate_route_matrix(WaypointsSupplier origins, WaypointsSupplier destinations, const TransportProfile &profile) const
@@ -70,7 +70,7 @@ namespace assfire::router
     std::vector<RouteInfo> BasicRoutingStrategy::calculate_route_infos_vector(const Waypoints &waypoints, const TransportProfile &profile)
     {
         std::vector<RouteInfo> result;
-        calculate_routes_vector(
+        calculate_route_infos_vector(
             waypoints, [&](auto route)
             { result.emplace_back(route); },
             profile);

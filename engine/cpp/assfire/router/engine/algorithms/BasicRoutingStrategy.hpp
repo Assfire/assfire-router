@@ -1,12 +1,12 @@
 #pragma once
 
-#include "assfire/router/engine/RoutingStrategy.hpp"
+#include "assfire/router/engine/common/RoutingStrategy.hpp"
 
 namespace assfire::router
 {
     /**
      * \brief This class implements common methods for basic routing strategies only able to calculate single routes (like crowflight, euclidean etc.)
-     * 
+     *
      */
     class BasicRoutingStrategy : public RoutingStrategy
     {
@@ -21,5 +21,13 @@ namespace assfire::router
         virtual void calculate_routes_vector(const Waypoints &waypoints, std::function<void(Route)> consume_route, const TransportProfile &profile) override;
         virtual std::vector<RouteInfo> calculate_route_infos_vector(const Waypoints &waypoints, const TransportProfile &profile) override;
         virtual void calculate_route_infos_vector(const Waypoints &waypoints, std::function<void(RouteInfo)> consume_route_info, const TransportProfile &profile) override;
+
+    private:
+        /**
+         * \brief Derived classes should implement this method to produce a copy of themselves to be passed down to route matrix
+         *
+         * \return std::shared_ptr<RoutingStrategy> A copy of current strategy
+         */
+        virtual std::shared_ptr<RoutingStrategy> clone() const = 0;
     };
 }

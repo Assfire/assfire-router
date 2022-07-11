@@ -1,7 +1,7 @@
 #pragma once
 
 #include "assfire/router/api/TransportProfileId.hpp"
-#include "TransportProfile.hpp"
+#include "assfire/router/engine/common/TransportProfile.hpp"
 
 namespace assfire::router {
     class TransportProfileProvider {

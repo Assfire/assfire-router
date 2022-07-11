@@ -1,6 +1,5 @@
 #include "CrowflightRoutingStrategy.hpp"
 #include "CrowflightCalculator.hpp"
-#include "assfire/router/engine/matrix/ImmutableRouteMatrix.hpp"
 
 namespace assfire::router
 {
@@ -23,5 +22,10 @@ namespace assfire::router
         RouteInfo::Seconds travel_time_seconds = profile.calculate_time_to_travel_seconds(distance_meters);
 
         return RouteInfo(distance_meters, travel_time_seconds);
+    }
+
+    std::shared_ptr<RoutingStrategy> CrowflightRoutingStrategy::clone() const
+    {
+        return std::make_shared<CrowflightRoutingStrategy>();
     }
 }

@@ -3,6 +3,7 @@
 #include <optional>
 #include <functional>
 #include "assfire/router/api/Route.hpp"
+#include "assfire/router/api/RouteMatrix.hpp"
 #include "TransportProfile.hpp"
 
 namespace assfire::router

@@ -11,4 +11,9 @@ namespace assfire::router
     {
         return RouteInfo(RouteInfo::INFINITE_DISTANCE, RouteInfo::INFINITE_TRAVEL_TIME);
     }
+
+    std::shared_ptr<RoutingStrategy> InfinityRoutingStrategy::clone() const
+    {
+        return std::make_shared<InfinityRoutingStrategy>();
+    }
 }

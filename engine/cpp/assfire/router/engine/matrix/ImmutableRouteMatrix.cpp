@@ -61,25 +61,20 @@ namespace assfire::router
         ensure_strategy_present();
         return fallback_strategy->calculate_route(origin, destination, transport_profile);
     }
-    
-    RouteInfo ImmutableRouteMatrix::calculate_route_info(const GeoPoint &origin, const GeoPoint &destination) const 
+
+    RouteInfo ImmutableRouteMatrix::calculate_route_info(const GeoPoint &origin, const GeoPoint &destination) const
     {
         ensure_strategy_present();
         return fallback_strategy->calculate_route_info(origin, destination, transport_profile);
     }
-    
-    RouteInfo::Meters ImmutableRouteMatrix::calculate_distance_meters(const GeoPoint &origin, const GeoPoint &destination) const 
+
+    RouteInfo::Meters ImmutableRouteMatrix::calculate_distance_meters(const GeoPoint &origin, const GeoPoint &destination) const
     {
         ensure_strategy_present();
         return fallback_strategy->calculate_distance_meters(origin, destination, transport_profile);
     }
-    
-    RouteInfo::Seconds ImmutableRouteMatrix::calculate_travel_time_seconds(const GeoPoint &origin, const GeoPoint &destination) const 
-    {
-        // no-op for this matrix implementation
-    }
-    
-    RouteInfo::Seconds ImmutableRouteMatrix::calculate_travel_time_seconds(const GeoPoint &origin, const GeoPoint &destination) const 
+
+    RouteInfo::Seconds ImmutableRouteMatrix::calculate_travel_time_seconds(const GeoPoint &origin, const GeoPoint &destination) const
     {
         ensure_strategy_present();
         return fallback_strategy->calculate_travel_time_seconds(origin, destination, transport_profile);
@@ -91,17 +86,24 @@ namespace assfire::router
         {
             throw std::invalid_argument("Invalid geopoint ids: " + std::to_string(origin) + "->" + std::to_string(destination));
         }
-    }   
-   
+    }
+
     void ImmutableRouteMatrix::ensure_strategy_present() const
     {
-        if(!fallback_strategy) {
+        if (!fallback_strategy)
+        {
             throw std::runtime_error("Route calculation is requested at matrix API but no strategy was provided");
         }
     }
 
-    const RouteInfo& ImmutableRouteMatrix::retrieve_route_info(GeopointId origin, GeopointId destination) const{
+    const RouteInfo &ImmutableRouteMatrix::retrieve_route_info(GeopointId origin, GeopointId destination) const
+    {
         validate_geopoint_id(origin, destination);
-        return data[origin * destinations_count + destination];       
+        return data[origin * destinations_count + destination];
+    }
+
+    void ImmutableRouteMatrix::sync() const
+    {
+        // No-op for this implementation
     }
 }

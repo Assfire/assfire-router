@@ -5,8 +5,8 @@
 #include <cstdint>
 #include <functional>
 #include "assfire/router/api/RouteMatrix.hpp"
-#include "assfire/router/engine/RoutingStrategy.hpp"
-#include "assfire/router/engine/TransportProfile.hpp"
+#include "assfire/router/engine/common/RoutingStrategy.hpp"
+#include "assfire/router/engine/common/TransportProfile.hpp"
 
 namespace assfire::router
 {
