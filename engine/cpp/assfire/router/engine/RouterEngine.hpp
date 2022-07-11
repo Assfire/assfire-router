@@ -10,7 +10,7 @@ namespace assfire::router
     class RouterEngine : public RoutesProvider
     {
     public:
-        RouterEngine(std::unique_ptr <RoutingStrategyProvider> routingStrategyProvider, std::unique_ptr <TransportProfileProvider> transportProfileProvider);
+        RouterEngine(std::shared_ptr <RoutingStrategyProvider> routingStrategyProvider, std::shared_ptr <TransportProfileProvider> transportProfileProvider);
 
         virtual Route calculate_route(const GeoPoint &origin, const GeoPoint &destination, const RoutingStrategyId &strategy = RoutingStrategyId()) const override;
         virtual Route calculate_route(const GeoPoint &origin, const GeoPoint &destination, const TransportProfileId &profile = TransportProfileId(), const RoutingStrategyId &strategy = RoutingStrategyId()) const override;
@@ -49,7 +49,7 @@ namespace assfire::router
         virtual void calculate_route_infos_vector(const Waypoints &waypoints, std::function<void(RouteInfo)> consume_route_info, const TransportProfileId &profile = TransportProfileId(), const RoutingStrategyId &strategy = RoutingStrategyId()) override;
 
     private:
-        std::unique_ptr<RoutingStrategyProvider> routing_strategy_provider;
-        std::unique_ptr<TransportProfileProvider> transport_profile_provider;
+        std::shared_ptr<RoutingStrategyProvider> routing_strategy_provider;
+        std::shared_ptr<TransportProfileProvider> transport_profile_provider;
     };
 }

@@ -7,5 +7,6 @@ namespace assfire::router {
     class TransportProfileProvider {
     public:
         virtual TransportProfile get_transport_profile(const TransportProfileId& id) const = 0;
+        virtual std::vector<TransportProfileId> get_available_profiles() const = 0;
     };
 }

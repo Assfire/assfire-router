@@ -2,9 +2,9 @@
 
 namespace assfire::router
 {
-    RouterEngine::RouterEngine(std::unique_ptr<RoutingStrategyProvider> routingStrategyProvider, std::unique_ptr<TransportProfileProvider> transportProfileProvider)
-        : routing_strategy_provider(std::move(routingStrategyProvider)),
-          transport_profile_provider(std::move(transportProfileProvider))
+    RouterEngine::RouterEngine(std::shared_ptr<RoutingStrategyProvider> routing_strategy_provider, std::shared_ptr<TransportProfileProvider> transport_profile_provider)
+        : routing_strategy_provider(routing_strategy_provider),
+          transport_profile_provider(transport_profile_provider)
     {
     }
 

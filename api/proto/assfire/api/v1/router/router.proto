@@ -61,3 +61,24 @@ service RouterService {
   rpc GetRoutesVector(GetRoutesVectorRequest) returns (GetRoutesVectorResponse) {};
   rpc GetRoutesBatch(GetRoutesBatchRequest) returns (stream GetRoutesBatchResponse) {}
 }
+
+message GetAvailableStrategiesRequest {
+  
+} 
+
+message GetAvailableStrategiesResponse {
+  repeated string strategies = 1;
+} 
+
+message GetAvailableTransportProfilesRequest {
+  
+}
+
+message GetAvailableTransportProfilesResponse {
+  repeated string transport_profiles = 1;
+}
+
+service ConfigurationService {
+  rpc GetAvailableStrategies(GetAvailableStrategiesRequest) returns (GetAvailableStrategiesResponse) {};
+  rpc GetAvailableTransportProfiles(GetAvailableTransportProfilesRequest) returns (GetAvailableTransportProfilesResponse) {};
+}

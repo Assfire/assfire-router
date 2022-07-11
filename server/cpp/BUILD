@@ -1,7 +1,13 @@
 cc_library(
     name = "assfire_router_cc_service_impl",
-    srcs = ["RouterServiceImpl.cpp"],
-    hdrs = ["RouterServiceImpl.hpp"],
+    srcs = [
+        "ConfigurationServiceImpl.cpp",
+        "RouterServiceImpl.cpp",
+    ],
+    hdrs = [
+        "ConfigurationServiceImpl.hpp",
+        "RouterServiceImpl.hpp",
+    ],
     copts = ["/std:c++20"],
     deps = [
         "//api/proto:assfire_router_cc_grpc",

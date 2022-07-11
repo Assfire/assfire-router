@@ -5,6 +5,7 @@
 #include "ArgsSettingsLoader.hpp"
 #include "PropsSettingsLoader.hpp"
 #include "RouterServiceImpl.hpp"
+#include "ConfigurationServiceImpl.hpp"
 
 #include <iostream>
 
@@ -27,8 +28,10 @@ void cleanup_sockets()
 {
     WSACleanup();
 }
-#else 
-void init_sockets() {}
+#else
+void init_sockets()
+{
+}
 void cleanup_sockets() {}
 #endif
 
@@ -42,16 +45,18 @@ int main(int argc, char **argv)
 
     std::cout << "Creating service" << std::endl;
 
-    RouterServiceImpl service(std::make_unique<RouterEngine>(
-        std::unique_ptr<RoutingStrategyProvider>(nullptr), // [TODO]
-        std::unique_ptr<TransportProfileProvider>(nullptr) // [TODO]
-        ));
+    std::shared_ptr<RoutingStrategyProvider> routing_strategy_provider;   // [TODO]
+    std::shared_ptr<TransportProfileProvider> transport_profile_provider; // [TODO]
+
+    RouterServiceImpl router_service(std::make_unique<RouterEngine>(routing_strategy_provider, transport_profile_provider));
+    ConfigurationServiceImpl configuration_service(routing_strategy_provider, transport_profile_provider);
 
     std::cout << "Creating server" << std::endl;
 
     grpc::ServerBuilder server_builder;
     server_builder.AddListeningPort(settings.format_bind_address(), grpc::InsecureServerCredentials()); // [TODO] Perform TLS
-    server_builder.RegisterService(&service);
+    server_builder.RegisterService(&router_service);
+    server_builder.RegisterService(&configuration_service);
 
     std::cout << "Building server service" << std::endl;
 
