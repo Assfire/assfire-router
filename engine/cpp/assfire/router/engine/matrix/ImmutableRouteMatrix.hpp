@@ -60,6 +60,7 @@ namespace assfire::router
     private:
         void validate_geopoint_id(GeopointId origin, GeopointId destination) const;
         void ensure_strategy_present() const;
+        const RouteInfo& retrieve_route_info(GeopointId origin, GeopointId destination) const;
 
         std::size_t origins_count;
         std::size_t destinations_count;

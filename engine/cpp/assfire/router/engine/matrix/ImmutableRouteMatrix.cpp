@@ -43,20 +43,17 @@ namespace assfire::router
 
     RouteInfo ImmutableRouteMatrix::get_route_info(GeopointId origin, GeopointId destination) const
     {
-        validate_geopoint_id(origin, destination);
-        return data[origin * destinations_count + destination];
+        return retrieve_route_info(origin, destination);
     }
 
     RouteInfo::Meters ImmutableRouteMatrix::get_distance_meters(GeopointId origin, GeopointId destination) const
     {
-        validate_geopoint_id(origin, destination);
-        return data[origin * destinations_count + destination].distance_meters();
+        return retrieve_route_info(origin, destination).distance_meters();
     }
 
     RouteInfo::Seconds ImmutableRouteMatrix::get_travel_time_seconds(GeopointId origin, GeopointId destination) const
     {
-        validate_geopoint_id(origin, destination);
-        return data[origin * destinations_count + destination].travel_time_seconds();
+        return retrieve_route_info(origin, destination).travel_time_seconds();
     }
 
     Route ImmutableRouteMatrix::calculate_route(const GeoPoint &origin, const GeoPoint &destination) const
@@ -94,8 +91,8 @@ namespace assfire::router
         {
             throw std::invalid_argument("Invalid geopoint ids: " + std::to_string(origin) + "->" + std::to_string(destination));
         }
-    }
-    
+    }   
+   
     void ImmutableRouteMatrix::ensure_strategy_present() const
     {
         if(!fallback_strategy) {
@@ -103,4 +100,8 @@ namespace assfire::router
         }
     }
 
+    const RouteInfo& ImmutableRouteMatrix::retrieve_route_info(GeopointId origin, GeopointId destination) const{
+        validate_geopoint_id(origin, destination);
+        return data[origin * destinations_count + destination];       
+    }
 }

@@ -13,6 +13,18 @@ namespace assfire::router
     public:
         using Meters = double;
         using Seconds = std::int32_t;
+        
+        /**
+         * \brief Defines "inifinite" distance i.e. destination point is unreachable from origin point
+         * 
+         */
+        static constexpr Meters INFINITE_DISTANCE = 1000000.0;
+
+        /**
+         * \brief Defines "inifinite" travel time i.e. destination point is unreachable from origin point
+         * 
+         */
+        static constexpr Seconds INFINITE_TRAVEL_TIME = 10000000;
 
         RouteInfo() = default;
         RouteInfo(Meters meters, Seconds seconds) : _meters(meters),
