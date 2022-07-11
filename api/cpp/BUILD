@@ -15,4 +15,5 @@ cc_library(
     include_prefix = "assfire/router/api",
     strip_include_prefix = "assfire/router/api",
     visibility = ["//visibility:public"],
+    copts = ["/std:c++20"]
 )

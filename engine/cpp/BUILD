@@ -12,6 +12,7 @@ cc_library(
     ],
     strip_include_prefix = "assfire/router/engine/common/",
     include_prefix = "assfire/router/engine/common/",
+    copts = ["/std:c++20"],
 )
 
 cc_library(
@@ -24,6 +25,8 @@ cc_library(
     ],
     strip_include_prefix = "assfire/router/engine/matrix/",
     include_prefix = "assfire/router/engine/matrix/",
+    visibility = ["//visibility:public"],
+    copts = ["/std:c++20"]
 )
 
 cc_library(
@@ -48,4 +51,6 @@ cc_library(
         ":assfire_router_cc_matrix",
         "//api/cpp:assfire_router_cc_api",
     ],
+    visibility = ["//visibility:public"],
+    copts = ["/std:c++20"]
 )
