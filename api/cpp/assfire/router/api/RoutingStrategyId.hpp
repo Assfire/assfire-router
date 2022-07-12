@@ -8,7 +8,7 @@ namespace assfire::router
     struct RoutingStrategyId
     {
         RoutingStrategyId() = default;
-        RoutingStrategyId(const std::string &value) : value(value) {}
+        explicit RoutingStrategyId(const std::string &value) : value(value) {}
 
         std::string value;
     };

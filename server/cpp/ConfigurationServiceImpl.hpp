@@ -7,7 +7,7 @@
 
 namespace assfire::router
 {
-    class ConfigurationServiceImpl : assfire::api::v1::router::ConfigurationService::Service
+    class ConfigurationServiceImpl : public assfire::api::v1::router::ConfigurationService::Service
     {
     public:
         ConfigurationServiceImpl(std::shared_ptr<RoutingStrategyProvider> routing_strategies_provider,

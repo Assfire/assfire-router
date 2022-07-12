@@ -6,6 +6,8 @@
 #include "PropsSettingsLoader.hpp"
 #include "RouterServiceImpl.hpp"
 #include "ConfigurationServiceImpl.hpp"
+#include "assfire/router/engine/BasicRoutingStrategyProvider.hpp"
+#include "assfire/router/engine/BasicTransportProfileProvider.hpp"
 
 #include <iostream>
 
@@ -45,8 +47,8 @@ int main(int argc, char **argv)
 
     std::cout << "Creating service" << std::endl;
 
-    std::shared_ptr<RoutingStrategyProvider> routing_strategy_provider;   // [TODO]
-    std::shared_ptr<TransportProfileProvider> transport_profile_provider; // [TODO]
+    std::shared_ptr<RoutingStrategyProvider> routing_strategy_provider = std::make_shared<BasicRoutingStrategyProvider>();
+    std::shared_ptr<TransportProfileProvider> transport_profile_provider = std::make_shared<BasicTransportProfileProvider>();
 
     RouterServiceImpl router_service(std::make_unique<RouterEngine>(routing_strategy_provider, transport_profile_provider));
     ConfigurationServiceImpl configuration_service(routing_strategy_provider, transport_profile_provider);

@@ -7,38 +7,42 @@ cc_library(
         "assfire/router/engine/common/RoutingStrategy.hpp",
         "assfire/router/engine/common/TransportProfile.hpp",
     ],
+    copts = ["/std:c++20"],
+    include_prefix = "assfire/router/engine/common/",
+    strip_include_prefix = "assfire/router/engine/common/",
     deps = [
         "//api/cpp:assfire_router_cc_api",
     ],
-    strip_include_prefix = "assfire/router/engine/common/",
-    include_prefix = "assfire/router/engine/common/",
-    copts = ["/std:c++20"],
 )
 
 cc_library(
     name = "assfire_router_cc_matrix",
     srcs = ["assfire/router/engine/matrix/ImmutableRouteMatrix.cpp"],
     hdrs = ["assfire/router/engine/matrix/ImmutableRouteMatrix.hpp"],
-    deps = [
-        "//api/cpp:assfire_router_cc_api",
-        ":assfire_router_cc_engine_common",
-    ],
-    strip_include_prefix = "assfire/router/engine/matrix/",
+    copts = ["/std:c++20"],
     include_prefix = "assfire/router/engine/matrix/",
+    strip_include_prefix = "assfire/router/engine/matrix/",
     visibility = ["//visibility:public"],
-    copts = ["/std:c++20"]
+    deps = [
+        ":assfire_router_cc_engine_common",
+        "//api/cpp:assfire_router_cc_api",
+    ],
 )
 
 cc_library(
     name = "assfire_router_cc_engine",
     srcs = [
+        "assfire/router/engine/BasicRoutingStrategyProvider.cpp",
+        "assfire/router/engine/BasicTransportProfileProvider.cpp",
         "assfire/router/engine/RouterEngine.cpp",
         "assfire/router/engine/algorithms/BasicRoutingStrategy.cpp",
+        "assfire/router/engine/algorithms/CrowflightCalculator.hpp",
         "assfire/router/engine/algorithms/CrowflightRoutingStrategy.cpp",
         "assfire/router/engine/algorithms/InfinityRoutingStrategy.cpp",
-        "assfire/router/engine/algorithms/CrowflightCalculator.hpp",
     ],
     hdrs = [
+        "assfire/router/engine/BasicRoutingStrategyProvider.hpp",
+        "assfire/router/engine/BasicTransportProfileProvider.hpp",
         "assfire/router/engine/RouterEngine.hpp",
         "assfire/router/engine/RoutingStrategyProvider.hpp",
         "assfire/router/engine/TransportProfileProvider.hpp",
@@ -46,13 +50,13 @@ cc_library(
         "assfire/router/engine/algorithms/CrowflightRoutingStrategy.hpp",
         "assfire/router/engine/algorithms/InfinityRoutingStrategy.hpp",
     ],
+    copts = ["/std:c++20"],
+    include_prefix = "assfire/router/engine/",
+    strip_include_prefix = "assfire/router/engine/",
+    visibility = ["//visibility:public"],
     deps = [
         ":assfire_router_cc_engine_common",
         ":assfire_router_cc_matrix",
         "//api/cpp:assfire_router_cc_api",
     ],
-    visibility = ["//visibility:public"],
-    copts = ["/std:c++20"],
-    strip_include_prefix = "assfire/router/engine/",
-    include_prefix = "assfire/router/engine/"
 )
