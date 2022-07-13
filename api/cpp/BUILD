@@ -12,8 +12,17 @@ cc_library(
         "assfire/router/api/RoutingStrategyId.hpp",
         "assfire/router/api/TransportProfileId.hpp",
     ],
+    copts = ["/std:c++20"],
     include_prefix = "assfire/router/api",
     strip_include_prefix = "assfire/router/api",
     visibility = ["//visibility:public"],
-    copts = ["/std:c++20"]
+)
+
+cc_library(
+    name = "assfire_router_cc_proto_serialization",
+    hdrs = ["assfire/router/api/proto/ProtoSerialization.hpp"],
+    include_prefix = "assfire/router/api/proto",
+    strip_include_prefix = "assfire/router/api/proto",
+    visibility = ["//visibility:public"],
+    deps = [":assfire_router_cc_api", "//api/proto:assfire_router_cc_proto"]
 )

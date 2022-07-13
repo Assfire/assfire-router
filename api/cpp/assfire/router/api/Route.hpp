@@ -45,6 +45,26 @@ namespace assfire::router
         {
             return _route_info;
         }
+        
+        RouteInfo::Meters distance_meters() const
+        {
+            return _route_info.distance_meters();
+        }
+
+        void set_distance_meters(RouteInfo::Meters meters)
+        {
+            this->_route_info.set_distance_meters(meters);
+        }
+
+        RouteInfo::Seconds travel_time_seconds() const
+        {
+            return _route_info.travel_time_seconds();
+        }
+
+        void set_travel_time_seconds(RouteInfo::Seconds seconds)
+        {
+            this->_route_info.set_travel_time_seconds(seconds);
+        }
 
         const Waypoints &waypoints() const
         {

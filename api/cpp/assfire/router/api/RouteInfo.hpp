@@ -47,7 +47,7 @@ namespace assfire::router
             return _seconds;
         }
 
-        void set_duration_seconds(Seconds seconds)
+        void set_travel_time_seconds(Seconds seconds)
         {
             this->_seconds = seconds;
         }
