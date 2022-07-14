@@ -1,6 +1,10 @@
 cc_library(
     name = "assfire_router_cc_client",
-    srcs = ["assfire/router/client/RouterClient.cpp"],
+    srcs = [
+        "assfire/router/client/CompletableRouteMatrix.cpp",
+        "assfire/router/client/CompletableRouteMatrix.hpp",
+        "assfire/router/client/RouterClient.cpp",
+    ],
     hdrs = ["assfire/router/client/RouterClient.hpp"],
     copts = ["/std:c++20"],
     include_prefix = "assfire/router/client",

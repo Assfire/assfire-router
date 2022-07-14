@@ -17,8 +17,12 @@ cc_library(
 
 cc_library(
     name = "assfire_router_cc_matrix",
-    srcs = ["assfire/router/engine/matrix/ImmutableRouteMatrix.cpp"],
-    hdrs = ["assfire/router/engine/matrix/ImmutableRouteMatrix.hpp"],
+    srcs = [
+        "assfire/router/engine/matrix/ImmutableRouteMatrix.cpp",
+    ],
+    hdrs = [
+        "assfire/router/engine/matrix/ImmutableRouteMatrix.hpp",
+    ],
     copts = ["/std:c++20"],
     include_prefix = "assfire/router/engine/matrix/",
     strip_include_prefix = "assfire/router/engine/matrix/",

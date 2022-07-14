@@ -1,6 +1,7 @@
 #include "RouterClient.hpp"
 
 #include "assfire/router/api/proto/ProtoSerialization.hpp"
+#include "CompletableRouteMatrix.hpp"
 
 #include <stdexcept>
 
@@ -114,7 +115,40 @@ namespace assfire::router
 
     RouterClient::MatrixPtr RouterClient::calculate_route_matrix(const Waypoints &origins, const Waypoints &destinations, const TransportProfileId &profile, const RoutingStrategyId &strategy) const
     {
-        return nullptr; // [TODO] Implement
+        GetRoutesBatchRequest request;
+        for (const auto &wp : origins)
+        {
+            to_proto(wp, request.add_origins());
+        }
+        for (const auto &wp : destinations)
+        {
+            to_proto(wp, request.add_destinations());
+        }
+        request.set_routing_strategy(strategy.value);
+        request.set_transport_profile(profile.value);
+
+        ::grpc::ClientContext context;
+
+        std::shared_ptr<CompletableRouteMatrix> result = std::make_shared<CompletableRouteMatrix>(origins.size(), destinations.size(), *this, profile, strategy);
+
+        GetRoutesBatchResponse response;
+        std::unique_ptr<::grpc::ClientReader<GetRoutesBatchResponse>> reader(router_stub->GetRoutesBatch(&context, request));
+        while (reader->Read(&response))
+        {
+            for (const auto &ri : response.route_infos())
+            {
+                result->set_route_info(ri.origin_id(), ri.destination_id(), parse_route_info(ri.route_info()));
+            }
+        }
+        ::grpc::Status status = reader->Finish();
+
+        if(!status.ok()) {
+            throw std::runtime_error("gRPC call failed: " + status.error_message());
+        }
+
+        result->mark_complete();
+
+        return result;
     }
 
     RouterClient::MatrixPtr RouterClient::calculate_route_matrix(WaypointsSupplier origins, WaypointsSupplier destinations, const RoutingStrategyId &strategy) const
