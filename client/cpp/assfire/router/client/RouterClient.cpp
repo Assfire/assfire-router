@@ -1,5 +1,6 @@
 #include "RouterClient.hpp"
 
+#include <grpcpp/create_channel.h>
 #include "assfire/router/api/proto/ProtoSerialization.hpp"
 #include "CompletableRouteMatrix.hpp"
 
@@ -9,6 +10,14 @@ using namespace assfire::api::v1::router;
 
 namespace assfire::router
 {
+    // [TODO] Channel lifecycle??
+    RouterClient::RouterClient(const RouterClientSettings &settings) : 
+    channel(::grpc::CreateChannel(settings.server_address(), settings.build_credentials())),
+    router_stub(RouterService::NewStub(channel)),
+    configuration_stub(ConfigurationService::NewStub(channel))
+    {
+    }
+
     Route RouterClient::calculate_route(const GeoPoint &origin, const GeoPoint &destination, const RoutingStrategyId &strategy) const
     {
         return calculate_route(origin, destination, TransportProfileId(), strategy);
@@ -142,7 +151,8 @@ namespace assfire::router
         }
         ::grpc::Status status = reader->Finish();
 
-        if(!status.ok()) {
+        if (!status.ok())
+        {
             throw std::runtime_error("gRPC call failed: " + status.error_message());
         }
 
@@ -265,5 +275,53 @@ namespace assfire::router
         {
             consume_route_info(parse_route_info(r));
         }
+    }
+
+    std::vector<RoutingStrategyId> RouterClient::retrieve_available_routing_strategies() const
+    {
+        GetAvailableStrategiesRequest request;
+
+        ::grpc::ClientContext context;
+
+        GetAvailableStrategiesResponse response;
+        grpc::Status status = configuration_stub->GetAvailableStrategies(&context, request, &response);
+
+        if (!status.ok())
+        {
+            throw std::runtime_error("gRPC call failed: " + status.error_message());
+        }
+
+        std::vector<RoutingStrategyId> result;
+
+        for (const auto &id : response.strategies())
+        {
+            result.emplace_back(id);
+        }
+
+        return result;
+    }
+
+    std::vector<TransportProfileId> RouterClient::retrieve_available_transport_profiles() const
+    {
+        GetAvailableTransportProfilesRequest request;
+
+        ::grpc::ClientContext context;
+
+        GetAvailableTransportProfilesResponse response;
+        grpc::Status status = configuration_stub->GetAvailableTransportProfiles(&context, request, &response);
+
+        if (!status.ok())
+        {
+            throw std::runtime_error("gRPC call failed: " + status.error_message());
+        }
+
+        std::vector<TransportProfileId> result;
+
+        for (const auto &id : response.transport_profiles())
+        {
+            result.emplace_back(id);
+        }
+
+        return result;
     }
 }

@@ -1,14 +1,18 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 #include "assfire/router/api/RoutesProvider.hpp"
 #include "assfire/api/v1/router/router.grpc.pb.h"
+#include "RouterClientSettings.hpp"
 
 namespace assfire::router
 {
     class RouterClient : public RoutesProvider
     {
     public:
+        RouterClient(const RouterClientSettings& settings);
+
         virtual Route calculate_route(const GeoPoint &origin, const GeoPoint &destination, const RoutingStrategyId &strategy = RoutingStrategyId()) const override;
         virtual Route calculate_route(const GeoPoint &origin, const GeoPoint &destination, const TransportProfileId &profile = TransportProfileId(), const RoutingStrategyId &strategy = RoutingStrategyId()) const override;
 
@@ -45,9 +49,15 @@ namespace assfire::router
         virtual void calculate_route_infos_vector(const Waypoints &waypoints, std::function<void(RouteInfo)> consume_route_info, const RoutingStrategyId &strategy = RoutingStrategyId()) override;
         virtual void calculate_route_infos_vector(const Waypoints &waypoints, std::function<void(RouteInfo)> consume_route_info, const TransportProfileId &profile = TransportProfileId(), const RoutingStrategyId &strategy = RoutingStrategyId()) override;
 
+        std::vector<RoutingStrategyId> retrieve_available_routing_strategies() const;
+        std::vector<TransportProfileId> retrieve_available_transport_profiles() const;
+
     private:
         using RouterServiceStub = assfire::api::v1::router::RouterService::Stub;
+        using ConfigurationServiceStub = assfire::api::v1::router::ConfigurationService::Stub;
 
+        std::shared_ptr<::grpc::Channel> channel;
         std::unique_ptr<RouterServiceStub> router_stub;
+        std::unique_ptr<ConfigurationServiceStub> configuration_stub;
     };
 }

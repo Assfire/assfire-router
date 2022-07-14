@@ -5,7 +5,7 @@ cc_library(
         "assfire/router/client/CompletableRouteMatrix.hpp",
         "assfire/router/client/RouterClient.cpp",
     ],
-    hdrs = ["assfire/router/client/RouterClient.hpp"],
+    hdrs = ["assfire/router/client/RouterClient.hpp", "assfire/router/client/RouterClientSettings.hpp"],
     copts = ["/std:c++20"],
     include_prefix = "assfire/router/client",
     strip_include_prefix = "assfire/router/client",
