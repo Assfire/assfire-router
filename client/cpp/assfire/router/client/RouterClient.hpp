@@ -46,10 +46,8 @@ namespace assfire::router
         virtual void calculate_route_infos_vector(const Waypoints &waypoints, std::function<void(RouteInfo)> consume_route_info, const TransportProfileId &profile = TransportProfileId(), const RoutingStrategyId &strategy = RoutingStrategyId()) override;
 
     private:
-        using ConfigurationServiceStub = assfire::api::v1::router::ConfigurationService::Stub;
         using RouterServiceStub = assfire::api::v1::router::RouterService::Stub;
 
-        std::unique_ptr<ConfigurationServiceStub> configuration_stub;
         std::unique_ptr<RouterServiceStub> router_stub;
     };
 }

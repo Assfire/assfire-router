@@ -84,42 +84,57 @@ namespace assfire::router
 
     RouterClient::MatrixPtr RouterClient::calculate_route_matrix(const Waypoints &waypoints, const RoutingStrategyId &strategy) const
     {
-        return nullptr;
+        return calculate_route_matrix(waypoints, TransportProfileId(), strategy);
     }
 
     RouterClient::MatrixPtr RouterClient::calculate_route_matrix(const Waypoints &waypoints, const TransportProfileId &profile, const RoutingStrategyId &strategy) const
     {
-        return nullptr;
+        return calculate_route_matrix(waypoints, waypoints, profile, strategy);
     }
 
     RouterClient::MatrixPtr RouterClient::calculate_route_matrix(WaypointsSupplier waypoints, const RoutingStrategyId &strategy) const
     {
-        return nullptr;
+        return calculate_route_matrix(waypoints, TransportProfileId(), strategy);
     }
 
     RouterClient::MatrixPtr RouterClient::calculate_route_matrix(WaypointsSupplier waypoints, const TransportProfileId &profile, const RoutingStrategyId &strategy) const
     {
-        return nullptr;
+        std::vector<GeoPoint> waypoints_vector;
+        while (std::optional<GeoPoint> waypoint = waypoints())
+        {
+            waypoints_vector.push_back(*waypoint);
+        }
+        return calculate_route_matrix(waypoints_vector, waypoints_vector, profile);
     }
 
     RouterClient::MatrixPtr RouterClient::calculate_route_matrix(const Waypoints &origins, const Waypoints &destinations, const RoutingStrategyId &strategy) const
     {
-        return nullptr;
+        return calculate_route_matrix(origins, destinations, TransportProfileId(), strategy);
     }
 
     RouterClient::MatrixPtr RouterClient::calculate_route_matrix(const Waypoints &origins, const Waypoints &destinations, const TransportProfileId &profile, const RoutingStrategyId &strategy) const
     {
-        return nullptr;
+        return nullptr; // [TODO] Implement
     }
 
     RouterClient::MatrixPtr RouterClient::calculate_route_matrix(WaypointsSupplier origins, WaypointsSupplier destinations, const RoutingStrategyId &strategy) const
     {
-        return nullptr;
+        return calculate_route_matrix(origins, destinations, TransportProfileId(), strategy);
     }
 
     RouterClient::MatrixPtr RouterClient::calculate_route_matrix(WaypointsSupplier origins, WaypointsSupplier destinations, const TransportProfileId &profile, const RoutingStrategyId &strategy) const
     {
-        return nullptr;
+        std::vector<GeoPoint> origins_vector;
+        while (std::optional<GeoPoint> origin = origins())
+        {
+            origins_vector.push_back(*origin);
+        }
+        std::vector<GeoPoint> destinations_vector;
+        while (std::optional<GeoPoint> destination = destinations())
+        {
+            destinations_vector.push_back(*destination);
+        }
+        return calculate_route_matrix(origins_vector, destinations_vector, profile);
     }
 
     std::vector<Route> RouterClient::calculate_routes_vector(const Waypoints &waypoints, const RoutingStrategyId &strategy)

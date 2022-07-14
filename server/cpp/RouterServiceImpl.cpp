@@ -1,5 +1,7 @@
 #include "RouterServiceImpl.hpp"
 
+#include "assfire/router/api/proto/ProtoSerialization.hpp"
+
 namespace assfire::router
 {
     RouterServiceImpl::RouterServiceImpl(std::unique_ptr<RouterEngine> engine) : engine(std::move(engine))
@@ -33,11 +35,11 @@ namespace assfire::router
 
                 for (int ii = i; ii < request->origins().size() && ii < i + BATCH_SIZE; ++ii)
                 {
-                    origins.emplace_back(request->origins()[ii].lat(), request->origins()[ii].lon());
+                    origins.emplace_back(parse_geo_point(request->origins()[ii]));
                 }
                 for (int jj = j; jj < request->destinations().size() && jj < j + BATCH_SIZE; ++jj)
                 {
-                    destinations.emplace_back(request->destinations()[jj].lat(), request->destinations()[jj].lon());
+                    destinations.emplace_back(parse_geo_point(request->destinations()[jj]));
                 }
 
                 RouterEngine::MatrixPtr matrix = engine->calculate_route_matrix(origins, destinations, transport_profile, routing_strategy);
@@ -51,8 +53,7 @@ namespace assfire::router
                         assfire::api::v1::router::IndexedRouteInfo *route_info = response.add_route_infos();
                         route_info->set_origin_id(ii);
                         route_info->set_destination_id(jj);
-                        route_info->mutable_route_info()->set_distance_meters(route.distance_meters());
-                        route_info->mutable_route_info()->set_travel_time_seconds(route.travel_time_seconds());
+                        to_proto(route, route_info->mutable_route_info());
                     }
                 }
                 writer->Write(response); // [TODO] writeLast?
@@ -81,7 +82,7 @@ namespace assfire::router
         std::vector<GeoPoint> waypoints;
         for (const assfire::api::v1::router::GeoPoint &wp : request->waypoints())
         {
-            waypoints.emplace_back(wp.lat(), wp.lon());
+            waypoints.emplace_back(parse_geo_point(wp));
         }
         TransportProfileId transport_profile(request->transport_profile());
         RoutingStrategyId routing_strategy(request->routing_strategy());
@@ -90,27 +91,17 @@ namespace assfire::router
         {
             engine->calculate_routes_vector(
                 waypoints, [&](Route route)
-                {
-                assfire::api::v1::router::RouteInfo* route_info = response->add_route_infos();
-                route_info->set_distance_meters(route.summary().distance_meters());
-                route_info->set_travel_time_seconds(route.summary().travel_time_seconds());
-                for (const GeoPoint &waypoint : route.waypoints())
-            {
-                assfire::api::v1::router::GeoPoint *point = route_info->add_waypoints();
-                point->set_lat(waypoint.lat());
-                point->set_lon(waypoint.lon());
-            } },
-                transport_profile, routing_strategy);
+                { to_proto(route, response->add_route_infos()); },
+                transport_profile,
+                routing_strategy);
         }
         else
         {
             engine->calculate_route_infos_vector(
                 waypoints, [&](RouteInfo route)
-                {
-                assfire::api::v1::router::RouteInfo* route_info = response->add_route_infos();
-                route_info->set_distance_meters(route.distance_meters());
-                route_info->set_travel_time_seconds(route.travel_time_seconds()); },
-                transport_profile, routing_strategy);
+                { to_proto(route, response->add_route_infos()); },
+                transport_profile,
+                routing_strategy);
         }
 
         return grpc::Status::OK;
@@ -129,28 +120,20 @@ namespace assfire::router
         }
         */
 
-        GeoPoint origin(request->origin().lat(), request->origin().lon());
-        GeoPoint destination(request->destination().lat(), request->destination().lon());
+        GeoPoint origin = parse_geo_point(request->origin());
+        GeoPoint destination = parse_geo_point(request->destination());
         TransportProfileId transport_profile(request->transport_profile());
         RoutingStrategyId routing_strategy(request->routing_strategy());
 
         if (request->get_waypoints())
         {
             Route route = engine->calculate_route(origin, destination, transport_profile, routing_strategy);
-            response->mutable_route_info()->set_distance_meters(route.summary().distance_meters());
-            response->mutable_route_info()->set_travel_time_seconds(route.summary().travel_time_seconds());
-            for (const GeoPoint &waypoint : route.waypoints())
-            {
-                assfire::api::v1::router::GeoPoint *point = response->mutable_route_info()->add_waypoints();
-                point->set_lat(waypoint.lat());
-                point->set_lon(waypoint.lon());
-            }
+            to_proto(route, response->mutable_route_info());
         }
         else
         {
             RouteInfo summary = engine->calculate_route_info(origin, destination, transport_profile, routing_strategy);
-            response->mutable_route_info()->set_distance_meters(summary.distance_meters());
-            response->mutable_route_info()->set_travel_time_seconds(summary.travel_time_seconds());
+            to_proto(summary, response->mutable_route_info());
         }
 
         return grpc::Status::OK;

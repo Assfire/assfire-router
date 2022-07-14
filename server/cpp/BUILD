@@ -11,6 +11,7 @@ cc_library(
     copts = ["/std:c++20"],
     deps = [
         "//api/proto:assfire_router_cc_grpc",
+        "//api/cpp:assfire_router_cc_proto_serialization",
         "//engine/cpp:assfire_router_cc_engine",
     ],
 )

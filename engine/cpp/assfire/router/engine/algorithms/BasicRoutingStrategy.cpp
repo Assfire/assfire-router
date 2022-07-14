@@ -20,7 +20,12 @@ namespace assfire::router
 
     RoutingStrategy::MatrixPtr BasicRoutingStrategy::calculate_route_matrix(WaypointsSupplier waypoints, const TransportProfile &profile) const
     {
-        return calculate_route_matrix(waypoints, waypoints, profile);
+        std::vector<GeoPoint> waypoints_vector;
+        while (std::optional<GeoPoint> waypoint = waypoints())
+        {
+            waypoints_vector.push_back(*waypoint);
+        }
+        return calculate_route_matrix(waypoints_vector, waypoints_vector, profile);
     }
 
     RoutingStrategy::MatrixPtr BasicRoutingStrategy::calculate_route_matrix(const Waypoints &origins, const Waypoints &destinations, const TransportProfile &profile) const
