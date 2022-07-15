@@ -1,5 +1,6 @@
 
 #include "CompletableRouteMatrix.hpp"
+#include <iostream>
 
 using namespace std::chrono_literals;
 
@@ -10,7 +11,9 @@ namespace assfire::router
                                                    std::size_t destinations_count,
                                                    const RoutesProvider &routes_provider,
                                                    TransportProfileId transport_profile_id,
-                                                   RoutingStrategyId routing_strategy_id) : routing_strategy_id(routing_strategy_id),
+                                                   RoutingStrategyId routing_strategy_id) : origins_count(origins_count),
+                                                                                            destinations_count(destinations_count),
+                                                                                            routing_strategy_id(routing_strategy_id),
                                                                                             transport_profile_id(transport_profile_id),
                                                                                             routes_provider(routes_provider),
                                                                                             data(origins_count * destinations_count),

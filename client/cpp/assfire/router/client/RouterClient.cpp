@@ -109,7 +109,7 @@ namespace assfire::router
         {
             waypoints_vector.push_back(*waypoint);
         }
-        return calculate_route_matrix(waypoints_vector, waypoints_vector, profile);
+        return calculate_route_matrix(waypoints_vector, waypoints_vector, profile, strategy);
     }
 
     RouterClient::MatrixPtr RouterClient::calculate_route_matrix(const Waypoints &origins, const Waypoints &destinations, const RoutingStrategyId &strategy) const
@@ -173,7 +173,7 @@ namespace assfire::router
         {
             destinations_vector.push_back(*destination);
         }
-        return calculate_route_matrix(origins_vector, destinations_vector, profile);
+        return calculate_route_matrix(origins_vector, destinations_vector, profile, strategy);
     }
 
     std::vector<Route> RouterClient::calculate_routes_vector(const Waypoints &waypoints, const RoutingStrategyId &strategy)
