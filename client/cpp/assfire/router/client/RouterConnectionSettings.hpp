@@ -3,13 +3,14 @@
 #include <string>
 #include <memory>
 #include <grpcpp/channel.h>
+#include <grpcpp/create_channel.h>
 
 namespace assfire::router
 {
-    class RouterClientSettings
+    class RouterConnectionSettings
     {
     public:
-        RouterClientSettings() : _server_address("localhost:50051"){};
+        RouterConnectionSettings() : _server_address("localhost:50051"){};
 
         void set_server_address(const std::string &value)
         {

@@ -24,6 +24,12 @@ http_archive(
     ],
 )
 
+http_archive(
+  name = "com_google_googletest",
+  urls = ["https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip"],
+  strip_prefix = "googletest-609281088cfefc76f9d0ce82e1ff6c30cc3591e5",
+)
+
 git_repository(
     name = "assfire_common_concepts",
     commit = "fe7b3f554042feca0323df4c624bf1ef93cddc65", 

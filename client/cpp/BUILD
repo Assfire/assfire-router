@@ -3,9 +3,15 @@ cc_library(
     srcs = [
         "assfire/router/client/CompletableRouteMatrix.cpp",
         "assfire/router/client/CompletableRouteMatrix.hpp",
+        "assfire/router/client/GrpcConnectorImpl.cpp",
         "assfire/router/client/RouterClient.cpp",
     ],
-    hdrs = ["assfire/router/client/RouterClient.hpp", "assfire/router/client/RouterClientSettings.hpp"],
+    hdrs = [
+        "assfire/router/client/GrpcConnector.hpp",
+        "assfire/router/client/GrpcConnectorImpl.hpp",
+        "assfire/router/client/RouterClient.hpp",
+        "assfire/router/client/RouterConnectionSettings.hpp",
+    ],
     copts = ["/std:c++20"],
     include_prefix = "assfire/router/client",
     strip_include_prefix = "assfire/router/client",
@@ -14,5 +20,19 @@ cc_library(
         "//api/cpp:assfire_router_cc_proto_serialization",
         "//api/proto:assfire_router_cc_grpc",
         "//engine/cpp:assfire_router_cc_matrix",
+    ],
+)
+
+cc_test(
+    name = "assfire_router_cc_client_test",
+    srcs = [
+        "assfire/router/client/test/GrpcConnectorMock.hpp",
+        "assfire/router/client/test/ProtoMatchers.hpp",
+        "assfire/router/client/test/RouterClient_test.cpp",
+    ],
+    copts = ["/std:c++20"],
+    deps = [
+        ":assfire_router_cc_client",
+        "@com_google_googletest//:gtest_main",
     ],
 )

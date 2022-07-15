@@ -1,6 +1,5 @@
 #include "RouterClient.hpp"
 
-#include <grpcpp/create_channel.h>
 #include "assfire/router/api/proto/ProtoSerialization.hpp"
 #include "CompletableRouteMatrix.hpp"
 
@@ -10,11 +9,7 @@ using namespace assfire::api::v1::router;
 
 namespace assfire::router
 {
-    // [TODO] Channel lifecycle??
-    RouterClient::RouterClient(const RouterClientSettings &settings) : 
-    channel(::grpc::CreateChannel(settings.server_address(), settings.build_credentials())),
-    router_stub(RouterService::NewStub(channel)),
-    configuration_stub(ConfigurationService::NewStub(channel))
+    RouterClient::RouterClient(std::shared_ptr<GrpcConnector> grpc_connector) : grpc_connector(grpc_connector)
     {
     }
 
@@ -35,7 +30,7 @@ namespace assfire::router
         ::grpc::ClientContext context;
 
         GetSingleRouteResponse response;
-        grpc::Status status = router_stub->GetSingleRoute(&context, request, &response);
+        grpc::Status status = grpc_connector->get_router_stub().GetSingleRoute(&context, request, &response);
 
         if (!status.ok())
         {
@@ -62,7 +57,7 @@ namespace assfire::router
         ::grpc::ClientContext context;
 
         GetSingleRouteResponse response;
-        grpc::Status status = router_stub->GetSingleRoute(&context, request, &response);
+        grpc::Status status = grpc_connector->get_router_stub().GetSingleRoute(&context, request, &response);
 
         if (!status.ok())
         {
@@ -141,7 +136,7 @@ namespace assfire::router
         std::shared_ptr<CompletableRouteMatrix> result = std::make_shared<CompletableRouteMatrix>(origins.size(), destinations.size(), *this, profile, strategy);
 
         GetRoutesBatchResponse response;
-        std::unique_ptr<::grpc::ClientReader<GetRoutesBatchResponse>> reader(router_stub->GetRoutesBatch(&context, request));
+        std::unique_ptr<::grpc::ClientReaderInterface<GetRoutesBatchResponse>> reader = grpc_connector->get_router_stub().GetRoutesBatch(&context, request);
         while (reader->Read(&response))
         {
             for (const auto &ri : response.route_infos())
@@ -216,7 +211,7 @@ namespace assfire::router
         ::grpc::ClientContext context;
 
         GetRoutesVectorResponse response;
-        grpc::Status status = router_stub->GetRoutesVector(&context, request, &response);
+        grpc::Status status = grpc_connector->get_router_stub().GetRoutesVector(&context, request, &response);
 
         if (!status.ok())
         {
@@ -264,7 +259,7 @@ namespace assfire::router
         ::grpc::ClientContext context;
 
         GetRoutesVectorResponse response;
-        grpc::Status status = router_stub->GetRoutesVector(&context, request, &response);
+        grpc::Status status = grpc_connector->get_router_stub().GetRoutesVector(&context, request, &response);
 
         if (!status.ok())
         {
@@ -284,7 +279,7 @@ namespace assfire::router
         ::grpc::ClientContext context;
 
         GetAvailableStrategiesResponse response;
-        grpc::Status status = configuration_stub->GetAvailableStrategies(&context, request, &response);
+        grpc::Status status = grpc_connector->get_configuration_stub().GetAvailableStrategies(&context, request, &response);
 
         if (!status.ok())
         {
@@ -308,7 +303,7 @@ namespace assfire::router
         ::grpc::ClientContext context;
 
         GetAvailableTransportProfilesResponse response;
-        grpc::Status status = configuration_stub->GetAvailableTransportProfiles(&context, request, &response);
+        grpc::Status status = grpc_connector->get_configuration_stub().GetAvailableTransportProfiles(&context, request, &response);
 
         if (!status.ok())
         {
