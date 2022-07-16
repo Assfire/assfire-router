@@ -12,7 +12,6 @@ cc_library(
         "assfire/router/client/RouterClient.hpp",
         "assfire/router/client/RouterConnectionSettings.hpp",
     ],
-    copts = ["/std:c++20"],
     include_prefix = "assfire/router/client",
     strip_include_prefix = "assfire/router/client",
     deps = [
@@ -30,7 +29,6 @@ cc_test(
         "assfire/router/client/test/ProtoMatchers.hpp",
         "assfire/router/client/test/RouterClient_test.cpp",
     ],
-    copts = ["/std:c++20"],
     deps = [
         ":assfire_router_cc_client",
         "@com_google_googletest//:gtest_main",

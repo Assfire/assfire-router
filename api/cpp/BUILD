@@ -12,7 +12,6 @@ cc_library(
         "assfire/router/api/RoutingStrategyId.hpp",
         "assfire/router/api/TransportProfileId.hpp",
     ],
-    copts = ["/std:c++20"],
     include_prefix = "assfire/router/api",
     strip_include_prefix = "assfire/router/api",
     visibility = ["//visibility:public"],

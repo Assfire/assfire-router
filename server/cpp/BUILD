@@ -8,7 +8,6 @@ cc_library(
         "ConfigurationServiceImpl.hpp",
         "RouterServiceImpl.hpp",
     ],
-    copts = ["/std:c++20"],
     deps = [
         "//api/proto:assfire_router_cc_grpc",
         "//api/cpp:assfire_router_cc_proto_serialization",
@@ -25,6 +24,5 @@ cc_binary(
         "SettingsLoader.hpp",
         "main.cpp",
     ],
-    copts = ["/std:c++20"],
     deps = [":assfire_router_cc_service_impl"],
 )
