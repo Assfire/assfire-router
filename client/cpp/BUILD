@@ -29,6 +29,7 @@ cc_test(
         "assfire/router/client/test/ProtoMatchers.hpp",
         "assfire/router/client/test/RouterClient_test.cpp",
     ],
+
     deps = [
         ":assfire_router_cc_client",
         "@com_google_googletest//:gtest_main",
