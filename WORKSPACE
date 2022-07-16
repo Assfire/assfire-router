@@ -19,6 +19,7 @@ http_archive(
 
 git_repository(
     name = "upb",
+    shallow_since = "1641840631 -0800",
     commit = "de3b396bd88afc8104bcb12b8897b9fd7f3220c1",
     remote = "https://github.com/protocolbuffers/upb",
 )
@@ -31,8 +32,8 @@ git_repository(
 
 http_archive(
     name = "rules_proto_grpc",
-    sha256 = "507e38c8d95c7efa4f3b1c0595a8e8f139c885cb41a76cab7e20e4e67ae87731",
-    strip_prefix = "rules_proto_grpc-4.1.1",
+    sha256 = "8383116d4c505e93fd58369841814acc3f25bdb906887a2023980d8f49a0b95b",
+    strip_prefix = "rules_proto_grpc-4.1.0",
     url = "https://github.com/rules-proto-grpc/rules_proto_grpc/archive/refs/tags/4.1.0.tar.gz",
 )
 
