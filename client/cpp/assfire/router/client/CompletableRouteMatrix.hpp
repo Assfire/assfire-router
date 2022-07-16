@@ -6,6 +6,7 @@
 #include <functional>
 #include <atomic>
 #include <mutex>
+#include <condition_variable>
 #include "assfire/router/api/RouteMatrix.hpp"
 #include "assfire/router/api/RoutingStrategyId.hpp"
 #include "assfire/router/api/TransportProfileId.hpp"
