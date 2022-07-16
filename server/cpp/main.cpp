@@ -1,5 +1,3 @@
-#pragma once
-
 #include <grpc++/server_builder.h>
 
 #include "ArgsSettingsLoader.hpp"

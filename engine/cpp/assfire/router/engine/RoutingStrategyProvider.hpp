@@ -11,6 +11,8 @@ namespace assfire::router {
      */
     class RoutingStrategyProvider {
     public:
+        virtual ~RoutingStrategyProvider() = default;
+
         /**
          * \brief Returns routing strategy associated with passed id. When no strategy with such id is present, behavior is implementation-defined
          * 
