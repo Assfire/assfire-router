@@ -1,3 +1,5 @@
+load("@io_bazel_rules_docker//cc:image.bzl", "cc_image")
+
 cc_library(
     name = "assfire_router_cc_service_impl",
     srcs = [
@@ -25,4 +27,9 @@ cc_binary(
         "main.cpp",
     ],
     deps = [":assfire_router_cc_service_impl"],
+)
+
+cc_image(
+    name = "assfire_router_cc_image",
+    binary = ":assfire_router_cc_server",
 )
