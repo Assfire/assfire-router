@@ -27,11 +27,11 @@ cc_test(
     srcs = [
         "assfire/router/client/test/GrpcConnectorMock.hpp",
         "assfire/router/client/test/ProtoMatchers.hpp",
-        "assfire/router/client/test/RouterClient_test.cpp",
+        "assfire/router/client/test/RouterClient_Test.cpp",
     ],
 
     deps = [
         ":assfire_router_cc_client",
-        "@com_google_googletest//:gtest_main",
+        "@com_google_googletest//:gtest_main"
     ],
 )

@@ -22,6 +22,8 @@ namespace assfire::router
         using WaypointsSupplier = std::function<std::optional<GeoPoint>()>;
         using Waypoints = std::vector<GeoPoint>;
 
+        virtual ~RoutesProvider() = default;
+
         /**
          * \brief Calculates single route including waypoints using specified strategy and default transport profile
          *

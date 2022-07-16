@@ -33,6 +33,8 @@ namespace assfire::router
     public:
         using GeopointId = std::uint32_t;
 
+        virtual ~RouteMatrix() = default;
+
        /**
          * \brief Retrieves single route summary between speciifed pre-indexed locations
          *

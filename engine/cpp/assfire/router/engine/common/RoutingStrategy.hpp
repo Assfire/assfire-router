@@ -2,6 +2,8 @@
 
 #include <optional>
 #include <functional>
+#include <vector>
+#include <memory>
 #include "assfire/router/api/Route.hpp"
 #include "assfire/router/api/RouteMatrix.hpp"
 #include "TransportProfile.hpp"
@@ -14,6 +16,8 @@ namespace assfire::router
         using MatrixPtr = std::shared_ptr<RouteMatrix>;
         using Waypoints = std::vector<GeoPoint>;
         using WaypointsSupplier = std::function<std::optional<GeoPoint>()>;
+
+        virtual ~RoutingStrategy() = default;
 
         virtual Route calculate_route(const GeoPoint &origin, const GeoPoint &destination, const TransportProfile &profile) const = 0;
         virtual RouteInfo calculate_route_info(const GeoPoint &origin, const GeoPoint &destination, const TransportProfile &profile) const = 0;

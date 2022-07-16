@@ -10,6 +10,8 @@ namespace assfire::router
         using RouterServiceStub = assfire::api::v1::router::RouterService::StubInterface;
         using ConfigurationServiceStub = assfire::api::v1::router::ConfigurationService::StubInterface;
 
+        virtual ~GrpcConnector() = default;
+
         virtual RouterServiceStub &get_router_stub() = 0;
         virtual ConfigurationServiceStub &get_configuration_stub() = 0;
     };

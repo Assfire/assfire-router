@@ -25,10 +25,10 @@ namespace assfire::router
                                                std::size_t destinations_count,
                                                RouteInfoSupplier calculate_route,
                                                std::shared_ptr<RoutingStrategy> fallback_strategy,
-                                               TransportProfile transport_profile) : fallback_strategy(fallback_strategy),
-                                                                                     origins_count(origins_count),
+                                               TransportProfile transport_profile) : origins_count(origins_count),
                                                                                      destinations_count(destinations_count),
-                                                                                     transport_profile(transport_profile)
+                                                                                     transport_profile(transport_profile),
+                                                                                     fallback_strategy(fallback_strategy)
     {
         initialize_data(data, origins_count, destinations_count, std::move(calculate_route));
     }

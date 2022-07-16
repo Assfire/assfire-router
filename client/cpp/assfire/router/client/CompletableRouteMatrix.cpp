@@ -13,8 +13,8 @@ namespace assfire::router
                                                    TransportProfileId transport_profile_id,
                                                    RoutingStrategyId routing_strategy_id) : origins_count(origins_count),
                                                                                             destinations_count(destinations_count),
-                                                                                            routing_strategy_id(routing_strategy_id),
                                                                                             transport_profile_id(transport_profile_id),
+                                                                                            routing_strategy_id(routing_strategy_id),
                                                                                             routes_provider(routes_provider),
                                                                                             data(origins_count * destinations_count),
                                                                                             is_complete(false)
@@ -103,7 +103,7 @@ namespace assfire::router
         }
         else
         {
-            std::unique_lock lck(cv_lock);
+            std::unique_lock<std::mutex> lck(cv_lock);
             complete_cv.wait_for(lck, 5s, [&]
                                  { return is_complete.load(); }); // [TODO] Configurable waiting time
         }

@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include <grpcpp/test/mock_stream.h>
 
 #include <memory>
 #include "assfire/router/client/RouterClient.hpp"
@@ -10,6 +9,26 @@
 using namespace assfire::router;
 namespace apiv1 = assfire::api::v1::router;
 using namespace testing;
+
+// *** Copied from /grpcpp/test/mock_stream.h ***
+namespace grpc::testing {
+    template <class R>
+    class MockClientReader : public ::grpc::ClientReaderInterface<R> {
+    public:
+    MockClientReader() = default;
+
+    /// ClientStreamingInterface
+    MOCK_METHOD0_T(Finish, Status());
+
+    /// ReaderInterface
+    MOCK_METHOD1_T(NextMessageSize, bool(uint32_t*));
+    MOCK_METHOD1_T(Read, bool(R*));
+
+    /// ClientReaderInterface
+    MOCK_METHOD0_T(WaitForInitialMetadata, void());
+    };
+}
+// ***
 
 TEST(RouterClientTest, GetSingleRouteInfo)
 {
