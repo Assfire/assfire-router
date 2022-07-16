@@ -1,4 +1,5 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 http_archive(
     name = "com_google_protobuf",
@@ -8,10 +9,42 @@ http_archive(
 )
 
 http_archive(
+    name = "com_github_grpc_grpc",
+    sha256 = "ba7c36989ad8a52c813adeebb0c65869283448f496dbb2868c75f69941dec6a9",
+    strip_prefix = "grpc-1.47.1",
+    url = "https://github.com/grpc/grpc/archive/refs/tags/v1.47.1.tar.gz",
+)
+
+http_archive(
+    name = "io_bazel_rules_go",
+    sha256 = "685052b498b6ddfe562ca7a97736741d87916fe536623afb7da2824c0211c369",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.33.0/rules_go-v0.33.0.zip",
+        "https://github.com/bazelbuild/rules_go/releases/download/v0.33.0/rules_go-v0.33.0.zip",
+    ],
+)
+load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+go_rules_dependencies()
+go_register_toolchains(version = "1.18.3")
+
+git_repository (
+    name = "upb",
+    commit = "de3b396bd88afc8104bcb12b8897b9fd7f3220c1",
+    remote = "https://github.com/protocolbuffers/upb"
+)
+
+git_repository (
+    name = "com_google_googleapis",
+    commit = "4753861dfd2bd3463b263fcda4074a3c92c3bb3d",
+    remote = "https://github.com/googleapis/googleapis"
+)
+
+
+http_archive(
     name = "rules_proto_grpc",
     sha256 = "507e38c8d95c7efa4f3b1c0595a8e8f139c885cb41a76cab7e20e4e67ae87731",
     strip_prefix = "rules_proto_grpc-4.1.1",
-    url = "https://github.com/rules-proto-grpc/rules_proto_grpc/archive/refs/tags/4.1.1.tar.gz",
+    url = "https://github.com/rules-proto-grpc/rules_proto_grpc/archive/refs/tags/4.1.0.tar.gz",
 )
 
 http_archive(
