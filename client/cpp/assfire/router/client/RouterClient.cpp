@@ -23,8 +23,8 @@ namespace assfire::router
         GetSingleRouteRequest request;
         to_proto(origin, request.mutable_origin());
         to_proto(destination, request.mutable_destination());
-        request.set_routing_strategy(strategy.value);
-        request.set_transport_profile(profile.value);
+        request.set_routing_strategy(strategy.value());
+        request.set_transport_profile(profile.value());
         request.set_get_waypoints(true);
 
         ::grpc::ClientContext context;
@@ -50,8 +50,8 @@ namespace assfire::router
         GetSingleRouteRequest request;
         to_proto(origin, request.mutable_origin());
         to_proto(destination, request.mutable_destination());
-        request.set_routing_strategy(strategy.value);
-        request.set_transport_profile(profile.value);
+        request.set_routing_strategy(strategy.value());
+        request.set_transport_profile(profile.value());
         request.set_get_waypoints(false);
 
         ::grpc::ClientContext context;
@@ -128,8 +128,8 @@ namespace assfire::router
         {
             to_proto(wp, request.add_destinations());
         }
-        request.set_routing_strategy(strategy.value);
-        request.set_transport_profile(profile.value);
+        request.set_routing_strategy(strategy.value());
+        request.set_transport_profile(profile.value());
 
         ::grpc::ClientContext context;
 
@@ -204,8 +204,8 @@ namespace assfire::router
         {
             to_proto(wp, request.add_waypoints());
         }
-        request.set_routing_strategy(strategy.value);
-        request.set_transport_profile(profile.value);
+        request.set_routing_strategy(strategy.value());
+        request.set_transport_profile(profile.value());
         request.set_get_waypoints(true);
 
         ::grpc::ClientContext context;
@@ -252,8 +252,8 @@ namespace assfire::router
         {
             to_proto(wp, request.add_waypoints());
         }
-        request.set_routing_strategy(strategy.value);
-        request.set_transport_profile(profile.value);
+        request.set_routing_strategy(strategy.value());
+        request.set_transport_profile(profile.value());
         request.set_get_waypoints(false);
 
         ::grpc::ClientContext context;

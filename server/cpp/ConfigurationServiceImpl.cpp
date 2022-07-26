@@ -16,7 +16,7 @@ namespace assfire::router
     {
         for (const RoutingStrategyId &strategy : routing_strategies_provider->get_available_strategies())
         {
-            response->add_strategies(strategy.value);
+            response->add_strategies(strategy.value());
         }
 
         return ::grpc::Status::OK;
@@ -28,7 +28,7 @@ namespace assfire::router
     {
         for (const TransportProfileId &profile : transport_profiles_provider->get_available_profiles())
         {
-            response->add_transport_profiles(profile.value);
+            response->add_transport_profiles(profile.value());
         }
 
         return ::grpc::Status::OK;

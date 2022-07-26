@@ -16,19 +16,19 @@ namespace assfire::router
 
     std::shared_ptr<RoutingStrategy> BasicRoutingStrategyProvider::get_routing_strategy(const RoutingStrategyId &id) const
     {
-        if (id.value.empty())
+        if (id.value().empty())
         {
             return strategies.at(CROWFLIGHT);
         }
         
-        auto iter = strategies.find(id.value);
+        auto iter = strategies.find(id.value());
         
         if (iter != strategies.end())
         {
             return iter->second;
         }
 
-        throw std::invalid_argument("Unsupported routing strategy: " + id.value);
+        throw std::invalid_argument("Unsupported routing strategy: " + id.value());
     }
 
     const std::vector<RoutingStrategyId>& BasicRoutingStrategyProvider::get_available_strategies() const

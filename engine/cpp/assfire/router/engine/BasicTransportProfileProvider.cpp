@@ -5,18 +5,18 @@ namespace assfire::router
 {
     TransportProfile BasicTransportProfileProvider::get_transport_profile(const TransportProfileId &id) const
     {
-        if (id.value.empty())
+        if (id.value().empty())
         {
             return TransportProfile();
         }
         else
         {
-            auto iter = transport_profiles.find(id.value);
+            auto iter = transport_profiles.find(id.value());
             if (iter != transport_profiles.end())
             {
                 return iter->second;
             }
-            throw std::invalid_argument("Unsupported transport profile: " + id.value);
+            throw std::invalid_argument("Unsupported transport profile: " + id.value());
         }
     }
 
